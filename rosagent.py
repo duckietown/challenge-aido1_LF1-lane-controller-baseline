@@ -50,9 +50,11 @@ class ROSAgent(object):
         Callback to listen to last outputted action from lane_controller_node
         Stores it and sustains same action until new message published on topic
         """
+        # THIS HAS BEEN CHANGED
+        vref = 0.22
         vl = msg.vel_left
         vr = msg.vel_right
-        self.action = np.array([vl, vr])
+        self.action = np.array([vl, vr]) / vref
 
     def _publish_info(self):
         """
