@@ -12,7 +12,7 @@
     <arg name="/lane_following/line_detection" default="true"/>
     <arg name="/lane_following/lane_filter" default="true"/>
     <arg name="/lane_following/ground_projection" default="true"/>
-    <arg name="/lane_following/lane_controller" default="false"/>
+    <!-- <arg name="/lane_following/lane_controller" default="false"/> -->
     <arg name="/lane_following/lane_exercise_controller_node" default="true"/>
 
 
@@ -54,7 +54,7 @@
             </group>
 
             <!-- Lane controller -->
-            <group if="$(arg /lane_following/lane_controller)">
+            <!-- <group if="$(arg /lane_following/lane_controller)">
                 <remap from="lane_controller_node/lane_pose" to="lane_filter_node/lane_pose"/>
                 <remap from="lane_controller_node/wheels_cmd_executed" to="wheels_driver_node/wheels_cmd_executed" />
                 <remap from="lane_controller_node/actuator_limits" to="inverse_kinematics_node/actuator_limits" />
@@ -64,7 +64,7 @@
                     <arg name="config" value="$(arg config)"/>
                     <arg name="param_file_name" value="$(arg param_file_name)"/>
                 </include>
-            </group>
+            </group> -->
 
             <!-- Exercise lane controller -->
             <group if="$(arg /lane_following/lane_exercise_controller_node)">
@@ -81,7 +81,7 @@
 
             <!-- Inverse Kinematic Node -->
             <group if="$(arg inverse_kinematics)">
-                <remap from="inverse_kinematics_node/car_cmd" to="lane_controller_node/car_cmd"/>
+                <remap from="inverse_kinematics_node/car_cmd" to="lane_exercise_controller_node/car_cmd"/>
                 <remap from="inverse_kinematics_node/wheels_cmd" to="wheels_driver_node/wheels_cmd" />
                 <include file="$(find dagu_car)/launch/inverse_kinematics_node.launch">
                     <arg name="veh" value="$(arg veh)"/>

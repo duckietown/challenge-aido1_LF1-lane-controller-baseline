@@ -18,8 +18,12 @@ COPY catkin_ws ./catkin_ws/
 RUN mkdir /exercises
 RUN mkdir /exercises/controls_exercise
 COPY controller.py /exercises/controls_exercise
+
+# Copy new tuned controller files
 COPY lane_exercise_controller_node.py /home/software/catkin_ws/src/10-lane-control/lane_control/scripts
 COPY lane_exercise_controller_node.launch /home/software/catkin_ws/src/10-lane-control/lane_control/launch
+
+RUN chmod +x /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_exercise_controller_node.py
 
 RUN echo "" > /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
 
