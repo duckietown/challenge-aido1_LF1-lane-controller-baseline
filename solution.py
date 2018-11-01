@@ -33,17 +33,17 @@ def solve(gym_environment, cis):
     # We need to launch the ROS stuff in the background
     # ROSLaunch API doesn't play well with our environment setup, so we use subprocess
     import subprocess
-    subprocess.Popen(["roslaunch lf_slim.launch"], shell=True)
-    
-    # Start the ROSAgent, which handles publishing images and subscribing to action 
+    subprocess.Popen(["roslaunch lf_slim_exercise.launch"], shell=True)
+
+    # Start the ROSAgent, which handles publishing images and subscribing to action
     agent = ROSAgent()
     r = rospy.Rate(15)
 
     while not rospy.is_shutdown():
         # we passe the observation to our model, and we get an action in return
         # we tell the environment to perform this action and we get some info back in OpenAI Gym style
-        
-        # To trigger the lane following pipeline, we publish the image 
+
+        # To trigger the lane following pipeline, we publish the image
         # and camera_infos to the correct topics defined in rosagent
         agent._publish_img(observation)
         agent._publish_info()
@@ -53,7 +53,7 @@ def solve(gym_environment, cis):
         # Edge case - if the nodes aren't ready yet
         if np.array_equal(action, np.array([0, 0])):
             continue
-            
+
         observation, reward, done, info = env.step(action)
         # here you may want to compute some stats, like how much reward are you getting
         # notice, this reward may no be associated with the challenge score.
@@ -72,7 +72,7 @@ def solve(gym_environment, cis):
 
 class Submission(ChallengeSolution):
     def run(self, cis):
-        # Now, initialize the ROS stuff here: 
+        # Now, initialize the ROS stuff here:
         assert isinstance(cis, ChallengeInterfaceSolution)  # this is a hack that would help with autocompletion
 
         # get the configuration parameters for this challenge

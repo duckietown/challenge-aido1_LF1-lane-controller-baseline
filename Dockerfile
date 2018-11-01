@@ -11,7 +11,7 @@ COPY solution.py ./
 
 # For ROS Agent - Additional Files
 COPY rosagent.py ./
-COPY lf_slim.launch ./
+COPY lf_slim_exercise.launch ./
 COPY catkin_ws ./catkin_ws/
 
 # For the Lane Following Exercise

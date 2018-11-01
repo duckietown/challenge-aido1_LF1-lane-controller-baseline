@@ -31,11 +31,11 @@ class lane_controller(object):
         # safe shutdown
         rospy.on_shutdown(self.custom_shutdown)
 
-        duckietown_root = os.environ['DUCKIETOWN_ROOT'] #assumes they sourced environment.sh
-        controller_name = rospy.get_param("~controller_name")       
+        #duckietown_root = os.environ['DUCKIETOWN_ROOT'] #assumes they sourced environment.sh
+        #controller_name = rospy.get_param("~controller_name")
 
-        ex_path = "/exercises/controls_exercise/" + controller_name
-        template_src = imp.load_source('module.name', duckietown_root + ex_path)
+        ex_path = "/exercises/controls_exercise/controller.py" #+ controller_name
+        template_src = imp.load_source('module.name', ex_path)
         self.controller_class = template_src.Controller()
 
         # HACK: Add listener for FSM machine in order to avoid integrating if not in autopilot mode
@@ -44,8 +44,8 @@ class lane_controller(object):
 
         # Customizations for different exercises. These are defined at top level rosparam "/"
         self.sampling_factor = rospy.get_param("~sampling_factor")
-        self.time_delay = rospy.get_param("~time_delay")  
-        self.omega_sat = rospy.get_param("~omega_sat")  
+        self.time_delay = rospy.get_param("~time_delay")
+        self.omega_sat = rospy.get_param("~omega_sat")
 
 
         # Set up variable which measures how long it took since last command
@@ -68,7 +68,7 @@ class lane_controller(object):
                 self.arr_delay.append([0, 0, 0, 0, 0, 0, 0])
 
         rospy.loginfo("[%s] Initialized " %(rospy.get_name()))
-        rospy.loginfo("\n\n\n\n\nREADY FOR EXERCISE " + controller_name + "\n\n\n\n\n")
+        rospy.loginfo("\n\n\n\n\nREADY FOR EXERCISE " + "AIDO SUBMISSION" + "\n\n\n\n\n")
 
     def cbStopLine(self, msg):
         if msg.data and self.measure_time:
