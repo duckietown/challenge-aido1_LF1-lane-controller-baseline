@@ -14,6 +14,13 @@ COPY rosagent.py ./
 COPY lf_slim.launch ./
 COPY catkin_ws ./catkin_ws/
 
+# For the Lane Following Exercise
+RUN mkdir /exercises
+RUN mkdir /exercises/controls_exercise
+COPY controller.py /exercises/controls_exercise
+COPY lane_exercise_controller_node.py /home/software/catkin_ws/src/10-lane-control/lane_control/scripts
+COPY lane_exercise_controller_node.launch /home/software/catkin_ws/src/10-lane-control/lane_control/launch
+
 # Uncomment these to build your own **SELF-CONTAINED** catkin_ws - warning: not the fastest!
 # RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && catkin_make -j -C catkin_ws/"
 # And adding it to the path
