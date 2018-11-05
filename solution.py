@@ -25,18 +25,22 @@ def solve(gym_environment, cis):
     cis.info('Making environment')
     env = gym.make(gym_environment)
     # Then we make sure we have a connection with the environment and it is ready to go
+    cis.info('TEST1')
     cis.info('Reset environment')
+    cis.info('TEST2')
     observation = env.reset()
     # While there are no signal of completion (simulation done)
     # we run the predictions for a number of episodes, don't worry, we have the control on this part
 
     # We need to launch the ROS stuff in the background
     # ROSLaunch API doesn't play well with our environment setup, so we use subprocess
+    cis.info('lf_slim_exercise starting')
     import subprocess
     subprocess.Popen(["roslaunch lf_slim_exercise.launch"], shell=True)
-
+    cis.info('lf_slim_exercise up')
     # Start the ROSAgent, which handles publishing images and subscribing to action
     agent = ROSAgent()
+    cis.info('Initialized agent')
     r = rospy.Rate(15)
 
     while not rospy.is_shutdown():

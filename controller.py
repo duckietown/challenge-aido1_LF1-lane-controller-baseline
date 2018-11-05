@@ -25,7 +25,7 @@ class Controller():
     def getControlOutput(self, d_est, phi_est, d_ref, phi_ref, v_ref, t_delay, dt_last):
 
         # Do your calculations here
-
+        print("DEBUGGING: CONTROLLER IS USED")
         # Calculate the output y
         ref =   (6 * d_ref + 1 * phi_ref)
         y =     (6 * d_est + 1 * phi_est)

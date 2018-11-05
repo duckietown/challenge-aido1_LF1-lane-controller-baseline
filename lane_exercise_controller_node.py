@@ -4,6 +4,10 @@ import math
 from duckietown_msgs.msg import Twist2DStamped, LanePose, FSMState, BoolStamped
 from duckietown_msgs.srv import SetFSMState
 import os, imp, time
+import sys
+sys.path.insert(0, "/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/")
+
+from controller import Controller
 
 ################# NOTE TO ALL TEACHING ASSISTANTS!!! ###################
 # IF you need to customize the behavior of a part exercise outside     #
@@ -34,12 +38,13 @@ class lane_controller(object):
         #duckietown_root = os.environ['DUCKIETOWN_ROOT'] #assumes they sourced environment.sh
         #controller_name = rospy.get_param("~controller_name")
 
-        ex_path = "/exercises/controls_exercise/controller.py" #+ controller_name
-        template_src = imp.load_source('module.name', ex_path)
-        self.controller_class = template_src.Controller()
+        # ex_path = "/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/controller.py" #+ controller_name
+        # template_src = imp.load_source('module.controller', ex_path)
+
+        self.controller_class = Controller()
 
         # HACK: Add listener for FSM machine in order to avoid integrating if not in autopilot mode
-        veh_name = os.environ['VEHICLE_NAME']
+        veh_name = os.environ['HOSTNAME'] # VEHICLE_NAME
         self.sub_fsm_mode = rospy.Subscriber("/" + str(veh_name) + "/fsm_node/mode", FSMState, self.cbMode, queue_size=1)
 
         # Customizations for different exercises. These are defined at top level rosparam "/"
@@ -131,7 +136,7 @@ class lane_controller(object):
 
         # Obtain new v and omega
         v_out, omega_out = self.controller_class.getControlOutput(d_est, phi_est, d_ref, phi_ref, v_ref, t_delay, dt_last)
-
+        print("TESTING:", "vout", vout, "omega_out", omega_out)
         if omega_out > self.omega_sat:
             omega_out = self.omega_sat
         if omega_out < -1 * self.omega_sat:
