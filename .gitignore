@@ -1,0 +1,6 @@
+
+output/
+
+docker-compose\.yaml
+
+evaluator\.log

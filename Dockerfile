@@ -27,10 +27,13 @@ COPY lane_controller_node.py /home/software/catkin_ws/src/10-lane-control/lane_c
 
 # COPY lane_exercise_controller_node.launch /home/software/catkin_ws/src/10-lane-control/lane_control/launch
 
+<<<<<<< HEAD
 RUN chmod +x /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
 
 # RUN echo "" > /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
 
+=======
+>>>>>>> 8afaf4cc17a69a3fd7247db1a4508a90dc31f58c
 # Probably not necessary
 # RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && catkin_make -j -C /home/software/catkin_ws"
 
