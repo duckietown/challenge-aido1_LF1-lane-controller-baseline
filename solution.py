@@ -26,7 +26,7 @@ def solve(gym_environment, cis):
     env = gym.make(gym_environment)
     # Then we make sure we have a connection with the environment and it is ready to go
     cis.info('TEST1')
-    cis.info('Reset environment')
+    cis.info('Reset environment - TEST A')
     cis.info('TEST2')
     observation = env.reset()
     # While there are no signal of completion (simulation done)

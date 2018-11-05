@@ -36,7 +36,7 @@ class lane_controller(object):
         rospy.on_shutdown(self.custom_shutdown)
 
         #duckietown_root = os.environ['DUCKIETOWN_ROOT'] #assumes they sourced environment.sh
-        #controller_name = rospy.get_param("~controller_name")
+        # controller_name = rospy.get_param("~controller_name")
 
         # ex_path = "/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/controller.py" #+ controller_name
         # template_src = imp.load_source('module.controller', ex_path)
@@ -44,13 +44,17 @@ class lane_controller(object):
         self.controller_class = Controller()
 
         # HACK: Add listener for FSM machine in order to avoid integrating if not in autopilot mode
-        veh_name = os.environ['HOSTNAME'] # VEHICLE_NAME
+        if os.environ['HOSTNAME'] != '':
+            veh_name = os.environ['HOSTNAME']
+        else:
+            veh_name = os.environ['VEHICLE_NAME']
+
         self.sub_fsm_mode = rospy.Subscriber("/" + str(veh_name) + "/fsm_node/mode", FSMState, self.cbMode, queue_size=1)
 
         # Customizations for different exercises. These are defined at top level rosparam "/"
-        self.sampling_factor = rospy.get_param("~sampling_factor")
-        self.time_delay = rospy.get_param("~time_delay")
-        self.omega_sat = rospy.get_param("~omega_sat")
+        self.sampling_factor = 1  # to reduce the number of samples you use  # rospy.get_param("~sampling_factor")
+        self.time_delay = 0  # standard - assuming no time detail rospy.get_param("~time_delay")
+        self.omega_sat = 4 # rospy.get_param("~omega_sat")
 
 
         # Set up variable which measures how long it took since last command

@@ -22,12 +22,14 @@ RUN chmod +x /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/c
 # /exercises/controls_exercise - to be removed
 
 # Copy new tuned controller files
-COPY lane_exercise_controller_node.py /home/software/catkin_ws/src/10-lane-control/lane_control/scripts
-COPY lane_exercise_controller_node.launch /home/software/catkin_ws/src/10-lane-control/lane_control/launch
+RUN rm /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
+COPY lane_controller_node.py /home/software/catkin_ws/src/10-lane-control/lane_control/scripts
 
-RUN chmod +x /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_exercise_controller_node.py
+# COPY lane_exercise_controller_node.launch /home/software/catkin_ws/src/10-lane-control/lane_control/launch
 
-RUN echo "" > /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
+RUN chmod +x /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
+
+# RUN echo "" > /home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node.py
 
 # Probably not necessary
 # RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && catkin_make -j -C /home/software/catkin_ws"
