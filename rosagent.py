@@ -12,8 +12,8 @@ class ROSAgent(object):
         self.vehicle = os.getenv('HOSTNAME')
 
         # Subscribes to the output of the lane_controller_node and IK node
-        # self.action_sub = rospy.Subscriber('/{}/lane_exercise_controller_node/car_cmd'.format(
-            # self.vehicle), Twist2DStamped, self._action_cb)
+        self.action_sub = rospy.Subscriber('/{}/lane_controller_node/car_cmd'.format(
+            self.vehicle), Twist2DStamped, self._action_cb)
         self.ik_action_sub = rospy.Subscriber('/{}/wheels_driver_node/wheels_cmd'.format(
             self.vehicle), WheelsCmdStamped, self._ik_action_cb)
 

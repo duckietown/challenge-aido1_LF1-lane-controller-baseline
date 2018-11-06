@@ -36,7 +36,7 @@ def solve(gym_environment, cis):
     # ROSLaunch API doesn't play well with our environment setup, so we use subprocess
     cis.info('lf_slim_exercise starting')
     import subprocess
-    subprocess.Popen(["roslaunch lf_slim_exercise.launch"], shell=True)
+    subprocess.Popen(["roslaunch lf_slim.launch"], shell=True)
     cis.info('lf_slim_exercise up')
     # Start the ROSAgent, which handles publishing images and subscribing to action
     agent = ROSAgent()
