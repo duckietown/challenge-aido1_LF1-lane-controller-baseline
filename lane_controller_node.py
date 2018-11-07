@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# from __future__ import absolute_import
 import math
 import time
 import numpy as np
@@ -76,7 +77,7 @@ class lane_controller(object):
 
         # timer
         self.gains_timer = rospy.Timer(rospy.Duration.from_sec(0.1), self.getGains_event)
-        rospy.loginfo("[%s] Initialized " % (rospy.get_name()))
+        # rospy.loginfo("[%s] Initialized " % (rospy.get_name()))
 
         self.stop_line_distance = 999
         self.stop_line_detected = False
@@ -187,7 +188,7 @@ class lane_controller(object):
         #TODO: Feedforward was not working, go away with this error source! (Julien)
 
         self.velocity_to_m_per_s = 1#0.67     # TODO: change after new kinematic calibration! (should be obsolete, if new kinematic calibration works properly)
-        #self.omega_to_rad_per_s = 0.45 * 2 * math.pi    # TODO: change after new kinematic calibration! (should be obsolete, if new kinematic calibration works properly)
+        self.omega_to_rad_per_s = 0.45 * 2 * math.pi    # TODO: change after new kinematic calibration! (should be obsolete, if new kinematic calibration works properly)
 
         # FeedForward
         self.curvature_outer = 1 / (0.39)
@@ -196,45 +197,45 @@ class lane_controller(object):
         use_feedforward_part = rospy.get_param("~use_feedforward_part")
 
 
-        k_Id = rospy.get_param("~k_Id")
-        k_Iphi = rospy.get_param("~k_Iphi")
-        if self.k_Id != k_Id:
-            rospy.loginfo("ADJUSTED I GAIN")
-            self.cross_track_integral = 0
-            self.k_Id = k_Id
+        # k_Id = rospy.get_param("~k_Id")
+        # k_Iphi = rospy.get_param("~k_Iphi")
+        # if self.k_Id != k_Id:
+            # rospy.loginfo("ADJUSTED I GAIN")
+            # self.cross_track_integral = 0
+            # self.k_Id = k_Id
 
 
-        params_old = (self.v_bar,self.k_d,self.k_theta,self.d_thres,self.theta_thres, self.d_offset, self.k_Id, self.k_Iphi, self.use_feedforward_part, self.use_radius_limit)
-        params_new = (v_bar,k_d,k_theta,d_thres,theta_thres, d_offset, k_Id, k_Iphi, use_feedforward_part, use_radius_limit)
+        # params_old = (self.v_bar,self.k_d,self.k_theta,self.d_thres,self.theta_thres, self.d_offset, self.k_Id, self.k_Iphi, self.use_feedforward_part, self.use_radius_limit)
+        # params_new = (v_bar,k_d,k_theta,d_thres,theta_thres, d_offset, k_Id, k_Iphi, use_feedforward_part, use_radius_limit)
 
-        if params_old != params_new:
-            rospy.loginfo("[%s] Gains changed." %(self.node_name))
-
-            self.v_bar = v_bar
-            self.k_d = k_d
-            self.k_theta = k_theta
-            self.d_thres = d_thres
-            self.d_ref = d_ref
-            self.phi_ref = phi_ref
-            self.theta_thres = theta_thres
-            self.d_offset = d_offset
-            self.k_Id = k_Id
-            self.k_Iphi = k_Iphi
-
-            self.use_feedforward_part = use_feedforward_part
-
-
-            if use_radius_limit != self.use_radius_limit:
-                self.use_radius_limit = use_radius_limit
-                self.msg_radius_limit.data = self.use_radius_limit
-                self.pub_radius_limit.publish(self.msg_radius_limit)
+        # if params_old != params_new:
+        #     rospy.loginfo("[%s] Gains changed." %(self.node_name))
+        #
+        #     self.v_bar = v_bar
+        #     self.k_d = k_d
+        #     self.k_theta = k_theta
+        #     self.d_thres = d_thres
+        #     self.d_ref = d_ref
+        #     self.phi_ref = phi_ref
+        #     self.theta_thres = theta_thres
+        #     self.d_offset = d_offset
+        #     self.k_Id = k_Id
+        #     self.k_Iphi = k_Iphi
+        #
+        #     self.use_feedforward_part = use_feedforward_part
+        #
+        #
+        #     if use_radius_limit != self.use_radius_limit:
+        #         self.use_radius_limit = use_radius_limit
+        #         self.msg_radius_limit.data = self.use_radius_limit
+        #         self.pub_radius_limit.publish(self.msg_radius_limit)
 
     # FSM
 
     def cbSwitch(self,fsm_switch_msg):
         self.active = fsm_switch_msg.data   # True or False
 
-        rospy.loginfo("active: " + str(self.active))
+        # rospy.loginfo("active: " + str(self.active))
     # FSM
 
     def unsleepMaintenance(self, event):
@@ -338,9 +339,9 @@ class lane_controller(object):
 
     def updateActuatorLimits(self, msg_actuator_limits):
         self.actuator_limits = msg_actuator_limits
-        rospy.loginfo("actuator limits updated to: ")
-        rospy.loginfo("actuator_limits.v: " + str(self.actuator_limits.v))
-        rospy.loginfo("actuator_limits.omega: " + str(self.actuator_limits.omega))
+        # rospy.loginfo("actuator limits updated to: ")
+        # rospy.loginfo("actuator_limits.v: " + str(self.actuator_limits.v))
+        # rospy.loginfo("actuator_limits.omega: " + str(self.actuator_limits.omega))
         msg_actuator_limits_received = BoolStamped()
         msg_actuator_limits_received.data = True
         self.pub_actuator_limits_received.publish(msg_actuator_limits_received)
@@ -353,7 +354,7 @@ class lane_controller(object):
         self.publishCmd(car_control_msg)
 
     def custom_shutdown(self):
-        rospy.loginfo("[%s] Shutting down..." % self.node_name)
+        # rospy.loginfo("[%s] Shutting down..." % self.node_name)
 
         # Stop listening
         self.sub_lane_reading.unregister()
@@ -377,12 +378,13 @@ class lane_controller(object):
         self.publishCmd(car_control_msg)
 
         rospy.sleep(0.5)    #To make sure that it gets published.
-        rospy.loginfo("[%s] Shutdown" %self.node_name)
+        # rospy.loginfo("[%s] Shutdown" %self.node_name)
 
     def publishCmd(self, car_cmd_msg):
         self.pub_car_cmd.publish(car_cmd_msg)
 
     def cbPose(self, pose_msg):
+        dt_last = 0.01  # guess
         self.lane_reading = pose_msg
 
         # Calculating the delay image processing took
@@ -407,7 +409,7 @@ class lane_controller(object):
             car_control_msg.v = self.actuator_limits.v
 
         if math.fabs(self.cross_track_err) > self.d_thres:
-            rospy.logerr("inside threshold ")
+            # rospy.logerr("inside threshold ")
             self.cross_track_err = self.cross_track_err / math.fabs(self.cross_track_err) * self.d_thres
 
         currentMillis = int(round(time.time() * 1000))
@@ -416,6 +418,7 @@ class lane_controller(object):
             dt = (currentMillis - self.last_ms) / 1000.0
             self.cross_track_integral += self.cross_track_err * dt
             self.heading_integral += self.heading_err * dt
+            dt_last = dt
 
         if self.cross_track_integral > self.cross_track_integral_top_cutoff:
             self.cross_track_integral = self.cross_track_integral_top_cutoff
@@ -449,7 +452,8 @@ class lane_controller(object):
         # --------------- THIS IMPLEMENTS THE CONTROLLER -----------------------
         phi_ref = 0
         t_delay = 0
-        dt_last = dt
+
+        # print("dt_last:", dt_last)
         v_out, omega = self.controller.getControlOutput(pose_msg.d, pose_msg.phi,
                                                         self.d_offset, phi_ref,
                                                         self.v_bar, t_delay,
@@ -485,14 +489,16 @@ class lane_controller(object):
 
 
         # apply magic conversion factors
-        car_control_msg.v = car_control_msg.v * self.velocity_to_m_per_s
-        car_control_msg.omega = omega * self.omega_to_rad_per_s
+        # car_control_msg.v = car_control_msg.v * self.velocity_to_m_per_s
+        # car_control_msg.omega = omega * self.omega_to_rad_per_s
 
-        omega = car_control_msg.omega
+        # omega = car_control_msg.omega
         if omega > self.omega_max: omega = self.omega_max
         if omega < self.omega_min: omega = self.omega_min
-        omega += self.omega_ff
-        car_control_msg.omega = omega
+        # omega += self.omega_ff
+        # apply magic conversion factors and publish
+        car_control_msg.omega = omega * self.omega_to_rad_per_s
+        car_control_msg.v = v_out * self.velocity_to_m_per_s
         self.publishCmd(car_control_msg)
         self.last_ms = currentMillis
 
@@ -500,6 +506,6 @@ class lane_controller(object):
 
 if __name__ == "__main__":
 
-    rospy.init_node("lane_controller_node", anonymous=False)  # adapted to sonjas default file
-
+    rospy.init_node("lane_controller_node", anonymous=False)
     lane_control_node = lane_controller()
+    rospy.spin()

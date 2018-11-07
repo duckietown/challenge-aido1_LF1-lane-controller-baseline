@@ -6,7 +6,7 @@
         <arg name="local" default="false" doc="true to launch locally on laptop. false to launch of vehicle"/>
         <arg name="pkg_name" default="lane_control" doc="name of the package"/>
         <arg name="pkg_name_wheels_driver_node" default="dagu_car" doc="name of the package"/>
-        <arg name="node_name" default="/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node" doc="name of the node"/>
+        <arg name="node_name" default="lane_controller_node" doc="name of the node"/>
         <arg name="node_name_wheels_driver_node" default="wheels_driver_node" doc="name of the node"/>
         <group ns="$(arg veh)">
             <!-- Local -->

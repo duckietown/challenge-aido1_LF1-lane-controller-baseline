@@ -53,9 +53,9 @@
 
             <!-- Lane controller -->
             <group if="$(arg /lane_following/lane_controller)">
-                <remap from="/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node/lane_pose" to="lane_filter_node/lane_pose"/>
-                <remap from="/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node/wheels_cmd_executed" to="wheels_driver_node/wheels_cmd_executed" />
-                <remap from="/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node/actuator_limits" to="inverse_kinematics_node/actuator_limits" />
+                <remap from="lane_controller_node/lane_pose" to="lane_filter_node/lane_pose"/>
+                <remap from="lane_controller_node/wheels_cmd_executed" to="wheels_driver_node/wheels_cmd_executed" />
+                <remap from="lane_controller_node/actuator_limits" to="inverse_kinematics_node/actuator_limits" />
 
                 <include file="$(find lane_control)/launch/lane_controller_node.launch">
                     <arg name="veh" value="$(arg veh)"/>
@@ -66,7 +66,7 @@
 
             <!-- Inverse Kinematic Node -->
             <group if="$(arg inverse_kinematics)">
-                <remap from="inverse_kinematics_node/car_cmd" to="/home/software/catkin_ws/src/10-lane-control/lane_control/scripts/lane_controller_node/car_cmd"/>
+                <remap from="inverse_kinematics_node/car_cmd" to="lane_controller_node/car_cmd"/>
                 <remap from="inverse_kinematics_node/wheels_cmd" to="wheels_driver_node/wheels_cmd" />
                 <include file="$(find dagu_car)/launch/inverse_kinematics_node.launch">
                     <arg name="veh" value="$(arg veh)"/>
